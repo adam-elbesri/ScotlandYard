@@ -1,0 +1,197 @@
+#------------------------------------------------------------
+#        Script MySQL.
+#------------------------------------------------------------
+
+
+#------------------------------------------------------------
+# Table: Commune
+#--------------------------------a----------------------------
+
+CREATE TABLE Commune(
+        id_com      Int NOT NULL AUTO_INCREMENT,
+        nom_com     Varchar (50) ,
+        codepostal  Varchar (50) ,
+        departement Int
+	,CONSTRAINT Commune_PK PRIMARY KEY (id_com)
+)ENGINE=InnoDB;
+
+
+
+#------------------------------------------------------------
+# Table: Quartier
+#------------------------------------------------------------
+
+CREATE TABLE Quartier(
+        id_q        Int  NOT NULL AUTO_INCREMENT,
+        nom_q       Varchar (50) ,
+        INSEE       Int ,
+        type_q      Varchar (50) ,
+        coords      Varchar (2926) ,
+        pointdepart Boolean ,
+        id_com      Int NOT NULL
+	,CONSTRAINT Quartier_PK PRIMARY KEY (id_q)
+	,CONSTRAINT Quartier_Commune_FK FOREIGN KEY (id_com) REFERENCES Commune(id_com)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: route
+#------------------------------------------------------------
+
+CREATE TABLE route(
+        id_r                Int NOT NULL AUTO_INCREMENT,
+        moyen_t             Varchar (50) ,
+        id_quartier_depart  Int ,
+        id_quartier_arrivee Int ,      
+	CONSTRAINT route_PK PRIMARY KEY (id_r)
+
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: joueur
+#------------------------------------------------------------
+
+CREATE TABLE joueur(
+        email_j      Varchar (50) NOT NULL ,
+        nom_j        Varchar (50) ,
+	gagner Boolean,
+	position Int NOT NULL,
+        nbvictoire_j Int
+	,CONSTRAINT joueur_PK PRIMARY KEY (email_j)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: Configuration
+#------------------------------------------------------------
+
+CREATE TABLE Configuration(
+        nom_conf  Varchar (50) NOT NULL ,
+        date_conf Date ,
+        strategie Varchar (50)
+	,CONSTRAINT Configuration_PK PRIMARY KEY (nom_conf)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: Partie
+#------------------------------------------------------------
+
+CREATE TABLE Partie(
+        id_p      Int NOT NULL AUTO_INCREMENT,
+        datedebut Date ,
+        nb_d      Int ,
+        email_j   Varchar (50) NOT NULL ,
+        nom_conf  Varchar (50) NOT NULL
+	,CONSTRAINT Partie_PK PRIMARY KEY (id_p)
+	,CONSTRAINT Partie_joueur_FK FOREIGN KEY (email_j) REFERENCES joueur(email_j)
+	,CONSTRAINT Partie_Configuration0_FK FOREIGN KEY (nom_conf) REFERENCES Configuration(nom_conf)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: Image
+#------------------------------------------------------------
+
+CREATE TABLE Image(
+	id_i     Int NOT NULL AUTO_INCREMENT,
+        chemin_i Varchar (50)  NULL DEFAULT NULL ,
+        nom_i    Varchar (50)
+	,CONSTRAINT Image_PK PRIMARY KEY (id_i)
+)ENGINE=InnoDB;
+
+#------------------------------------------------------------
+# Table: MisterX
+#------------------------------------------------------------
+
+CREATE TABLE MisterX(
+	email_j   Varchar (50) NOT NULL ,
+	iD_X Int NOT NULL AUTO_INCREMENT,	
+        num_tour Int NOT NULL ,
+	position_x Int NOT NULL,
+	CONSTRAINT MisterX_PK PRIMARY KEY
+(iD_X),                                                                                                                                                                                                                                                                                              
+	CONSTRAINT MisterX_joueur_FK FOREIGN KEY (email_j) REFERENCES joueur(email_j)
+)ENGINE=InnoDB;
+
+
+
+ALTER TABLE `Quartier` CHANGE `id_com` `id_com` INT(11) NULL DEFAULT NULL;
+
+
+#IMPORTATION DE DONNES
+
+#COMMUNE-----------------------------------
+
+INSERT INTO Commune(codepostal,nom_com,departement)
+SELECT cpCommune,nomCommune,departement
+FROM dataset.Quartiers;
+
+#ROUTE   ------------------------------
+
+INSERT INTO route(id_quartier_depart, id_quartier_arrivee, moyen_t)
+SELECT DISTINCT idQuartierDepart, idQuartierArrivee, transport
+FROM dataset.Routes;
+
+#QUARTIER ----------------------------
+
+INSERT INTO Quartier(coords,id_q,INSEE,type_q,nom_q)
+SELECT DISTINCT coords,idQ,codeInsee,typeQ,nomQ
+FROM dataset.Quartiers;
+UPDATE Quartier SET id_com=id_q;
+
+
+
+#SELECT  DISTINCT idQuartierDepart  FROM dataset.Routes WHERE isQuartierDepart = 1
+
+
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 13;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 26;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 29;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 34;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 50;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 53;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 91;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 94;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 103;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 112;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 117;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 132;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 138;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 141;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 155;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 174;;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 197;
+
+UPDATE `Quartier` SET `pointdepart` = '1' WHERE `Quartier`.`id_q` = 198;
+
+
+ 
+INSERT INTO `Configuration` (`nom_conf`, `date_conf`, `strategie`) VALUES ('1', '2019-12-01', '1');
+
+
+INSERT INTO Image (nom_i,chemin_i ) VALUES ('taxi', '/img/taxi.png'), 
+('bus','/img/bus.png'),( 'metro', '/img/metro.png'), 
+('black_ticket','/img/black_ticket.jpeg')
+
+
+
+ 

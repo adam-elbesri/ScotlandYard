@@ -1,0 +1,63 @@
+@charset "utf-8";
+
+header, footer {
+	text-align: center;
+	background-attachment : fixed;
+	background-image : url("../img/fond.jpg");
+}
+
+header {
+	top : 0;
+
+}
+
+footer {
+	bottom : 0px;
+	background-position : bottom;
+}
+
+nav {
+	width : 180px;
+	padding : 10px;
+	text-align : left;
+	float : left;
+	background-color: #b4d6d3A0;
+}
+
+body{
+	background-color: #b2ffd6;
+	overflow : scroll;
+
+}
+
+a{
+	color:#000;
+	text-decoration:none;
+}
+
+.stat {
+	background-color: #b4d6d330;
+	margin : 1% 1% 1% 1%;
+	padding : 5px 5px 5px 5px;
+}
+
+p { text-align : center; }
+
+#position {
+	display: flex;
+	justify-content: space-around;
+	text-align : center;
+}
+
+#conteneur {
+	display: -webkit-box;
+	justify-content: space-around;
+	background-color: #d7fdf0D0;
+	text-align : center;
+	overflow : auto;
+}
+
+#fond {
+	background-color: #d7fdf0D0;
+	text-align : center;
+}
